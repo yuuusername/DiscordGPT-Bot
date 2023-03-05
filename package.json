@@ -1,0 +1,38 @@
+{
+  "name": "discordgpt-bot",
+  "version": "1.0.0",
+  "description": "A fully-customisable Discord bot powered by OpenAI's GPT-3",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
+    "lib": "^4.3.3",
+    "openai": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yuuusername/DiscordGPT-Bot.git"
+  },
+  "keywords": [
+    "discord",
+    "discordbot",
+    "openai-api",
+    "gpt-3",
+    "discord-bot",
+    "discordjs-v14",
+    "discordjs",
+    "discord-js",
+    "discordchatbot",
+    "discord-chatbot"
+  ],
+  "author": "Yuuusername",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Yuuusername/DiscordGPT-Bot/issues"
+  },
+  "homepage": "https://github.com/Yuuusername/DiscordGPT-Bot#readme"
+}

@@ -1,0 +1,6 @@
+# Ignore .env file
+.env
+# Ignore history.json file
+events/history.json
+# Ignore node_modules directory
+node_modules/
