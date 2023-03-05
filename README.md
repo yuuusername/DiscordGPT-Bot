@@ -16,9 +16,9 @@ The forked version includes message conversation history retention. It retains t
 4. Start the application with `node index.js`
 
 # Acknowledgements #
-This project is a fork of the [DiscordGPT bot](https://autocode.com/openai/templates/discord-gpt/) developed by OpenAI using the GPT-3 language model and hosted on Autocode platform. The original bot was developed to generate text responses based on user input in Discord servers.
+This project is a fork of the [DiscordGPT bot](https://autocode.com/openai/templates/discord-gpt/) developed by OpenAI using the GPT-3 language model and hosted on Autocode platform. The original bot was developed to generate text responses based on user input without message history in Discord servers.
 
-I have made some modifications to the original code to suit my specific needs. However, the core functionality of the bot remains the same. I would like to thank Autocode and OpenAI's for their contributions to this project.
+I've made some modifications to the original code to suit my specific needs. However, the core functionality of the bot remains the same. I would like to thank Autocode and OpenAI's for their contributions to this project.
 
 This project uses the following libraries:
 
