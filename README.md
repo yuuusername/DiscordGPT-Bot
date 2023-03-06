@@ -3,7 +3,7 @@ DiscordGPT is a Discord bot powered by GPT-3 which is fully-customisable and has
 
 The forked version includes message conversation history retention. It retains the last 10 messages for all users combined.
 
-# Getting Started #
+## Getting Started ##
 1. Clone the repository
 2. Create a .env file in the root directory with the following contents:
   ```.env
@@ -15,10 +15,13 @@ The forked version includes message conversation history retention. It retains t
 3. Install dependencies by running `npm install`
 4. Start the application with `node index.js`
 
-# Acknowledgements #
-This project is a fork of the [DiscordGPT bot](https://autocode.com/openai/templates/discord-gpt/) developed by OpenAI using the GPT-3 language model and hosted on Autocode platform. The original bot was developed to generate text responses based on user input in Discord servers.
+## To-Do ##
+- [ ] Refactor to support the new git-3.5-turbo model
 
-I have made some modifications to the original code to suit my specific needs. However, the core functionality of the bot remains the same. I would like to thank Autocode and OpenAI's for their contributions to this project.
+## Acknowledgements ##
+This project is a fork of the [DiscordGPT bot](https://autocode.com/openai/templates/discord-gpt/) developed by OpenAI using the GPT-3 language model and hosted on Autocode platform. The original bot was developed to generate text responses based on user input without message history in Discord servers.
+
+I've made some modifications to the original code to suit my specific needs. However, the core functionality of the bot remains the same. I would like to thank Autocode and OpenAI's for their contributions to this project.
 
 This project uses the following libraries:
 
