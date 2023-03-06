@@ -24,18 +24,18 @@ module.exports = {
 		if (message.channelId == process.env.DISCORD_CHANNEL_ID && !message.author.bot) {
 			let content = message.content;
 			let author = message.author;
-			let username = author.username;
+			let nickname = message.member.nickname || author.username;
 			let id = author.id;
 			let cleanMessage = content.replace(/<@(\d+)>/gi, ($0, $1) => {
-			return `<@${username}>`;
+			return `<@${nickname}>`;
 			});
 
 			let kvKey = `discordgpt:messageHistory:!`;
-			let historyLength = 10;
+			let historyLength = 20;
 			
 			
-			let currentMessage = {role: "user", content: cleanMessage}
-			console.log(currentMessage);
+			let currentMessage = {role: "user", content: cleanMessage};
+			let currentAuthor = {role: "system", content: `The next message is authored by ${nickname}:`}
 			let history = [];
 			try {
 			  const dbData = await readFileAsync(dbFilePath, { encoding: 'utf8' });
@@ -66,24 +66,23 @@ module.exports = {
 			while (`${cleanMessage}`.length > desiredLength) {
 			cleanMessage = `${cleanMessage}`.slice(0, -1);
 			}
-			let conversation = prompt(message, username);
+			let conversation = prompt(message, nickname);
 			conversation = conversation.concat(history);
+			conversation.push(currentAuthor);
 			conversation.push(currentMessage);
-			// let completePrompt = [
-			// prompt(message , username),
-			// history.join('\n'),
-			// conversation
-			// ].join('\n');
 			try {
 				let completion = await openai.createChatCompletion({
 					model: "gpt-3.5-turbo",
-					messages: conversation
+					messages: conversation,
+					temperature: 1.1,
+					top_p: 0.1,
+					max_tokens: 200,
+					frequency_penalty: 1
 				});
 
 				let response = completion.data.choices[0].message;
-				console.log("THIS IS THE RESPONSE:" + response);
 				conversation = conversation + response;
-				history.push(currentMessage, response);
+				history.push(currentAuthor, currentMessage, response);
 				if (history.length > historyLength) {
 				  history = history.slice(history.length - historyLength);
 				}
@@ -92,7 +91,6 @@ module.exports = {
 				} catch (error) {
 				  console.error(error);
 				}
-				console.log(response);
 				let [messageResponse, kvResponse] = await Promise.all([
 					message.channel.send({
 					channel_id: `DISCORD_CHANNEL_ID`,
@@ -114,7 +112,6 @@ module.exports = {
 					ttl: 600
 					})
 				]);
-				console.log(messageResponse)
 				return messageResponse
 			} catch (err) {
 				console.error(err);
