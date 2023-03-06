@@ -34,6 +34,8 @@ module.exports = {
 			let historyLength = 10;
 			
 			
+			let currentMessage = {role: "user", content: cleanMessage}
+			console.log(currentMessage);
 			let history = [];
 			try {
 			  const dbData = await readFileAsync(dbFilePath, { encoding: 'utf8' });
@@ -64,34 +66,24 @@ module.exports = {
 			while (`${cleanMessage}`.length > desiredLength) {
 			cleanMessage = `${cleanMessage}`.slice(0, -1);
 			}
-			let conversation = [
-			`${timestamp} ${username} said: ` + cleanMessage,
-			`Your response: `
-			].join('\n');
-			let completePrompt = [
-			prompt(message , username),
-			history.join('\n'),
-			conversation
-			].join('\n');
-
+			let conversation = prompt(message, username);
+			conversation = conversation.concat(history);
+			conversation.push(currentMessage);
+			// let completePrompt = [
+			// prompt(message , username),
+			// history.join('\n'),
+			// conversation
+			// ].join('\n');
 			try {
-				let completion = await openai.createCompletion({
-					model: `text-davinci-003`,
-					prompt: [
-					completePrompt
-					],
-					max_tokens: 200,
-					temperature: 0.9,
-					top_p: 1,
-					echo: false,
-					presence_penalty: 0,
-					frequency_penalty: 0,
+				let completion = await openai.createChatCompletion({
+					model: "gpt-3.5-turbo",
+					messages: conversation
 				});
-				console.log(completion.data.choices[0].text);
 
-				let response = completion.data.choices[0].text;
+				let response = completion.data.choices[0].message;
+				console.log("THIS IS THE RESPONSE:" + response);
 				conversation = conversation + response;
-				history.push(conversation);
+				history.push(currentMessage, response);
 				if (history.length > historyLength) {
 				  history = history.slice(history.length - historyLength);
 				}
@@ -100,12 +92,12 @@ module.exports = {
 				} catch (error) {
 				  console.error(error);
 				}
-
+				console.log(response);
 				let [messageResponse, kvResponse] = await Promise.all([
 					message.channel.send({
 					channel_id: `DISCORD_CHANNEL_ID`,
 					content: [
-						response
+						response.content
 					].join('\n'),
 					tts: false,
 					allowedMentions: { // "allowed_mentions" with this parameter prevents a ping
@@ -122,6 +114,7 @@ module.exports = {
 					ttl: 600
 					})
 				]);
+				console.log(messageResponse)
 				return messageResponse
 			} catch (err) {
 				console.error(err);
