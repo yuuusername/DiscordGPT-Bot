@@ -17,9 +17,10 @@ DiscordGPT is a Discord bot powered by GPT-3.5 which is fully-customisable and h
    LIB_API_KEY=YOUR_LIB_API_KEY
    DISCORD_CHANNEL_ID=YOUR_DISCORD_CHANNEL_ID
    ```
-3. Install dependencies by running `npm install`
-4. Start the application with `node index.js`
-5. Chat with your bot in the channel you've determined in `.env`!
+3. Edit `prompt-template.js` (optional) and rename to `prompt.js`
+4. Install dependencies by running `npm install`
+5. Start the application with `node index.js`
+6. Chat with your bot in the channel you've determined in `.env`!
 
 ## To-Do ##
 - [ ] A more user friendly setup
