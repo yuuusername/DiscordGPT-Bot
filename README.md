@@ -25,7 +25,7 @@ DiscordGPT is a Discord bot powered by GPT-3.5 which is fully-customisable and h
 ## To-Do ##
 - [ ] A more user friendly setup
 - [ ] Add a keyword for bot to keep message in database forever
-- [x] Implement the new git-3.5-turbo model
+- [x] Implement the new gpt-3.5-turbo model
 
 ## Acknowledgements ##
 This project is a fork of the [DiscordGPT bot](https://autocode.com/openai/templates/discord-gpt/) developed by OpenAI using the GPT-3 language model and hosted on Autocode platform. The original bot was developed to generate text responses based on user input without message history, using text-divinci-003 in Discord servers.
