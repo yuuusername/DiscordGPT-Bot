@@ -35,7 +35,7 @@ module.exports = {
 			
 			
 			let currentMessage = {role: "user", content: cleanMessage};
-			let currentAuthor = {role: "system", content: `The next message is authored by ${nickname}:`}
+			let currentAuthor = {role: "system", content: `${nickname}:`}
 			let history = [];
 			try {
 			  const dbData = await readFileAsync(dbFilePath, { encoding: 'utf8' });
@@ -68,6 +68,7 @@ module.exports = {
 			}
 			let conversation = prompt(message, nickname);
 			conversation = conversation.concat(history);
+			conversation.push(prompt(message, nickname)[prompt.length - 1]);
 			conversation.push(currentAuthor);
 			conversation.push(currentMessage);
 			try {
