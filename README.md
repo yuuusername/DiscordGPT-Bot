@@ -35,5 +35,5 @@ I've made modifications to the original code to suit my specific needs. However,
 This project uses the following libraries:
 
 * Discord.js: (https://discord.js.org/)
-* OpenAI GPT-3 API: (https://platform.openai.com/docs/introduction/overview)
+* OpenAI GPT-3.5 API: (https://platform.openai.com/docs/guides/chat)
 * Autocode standard library: (https://github.com/acode/cli)
