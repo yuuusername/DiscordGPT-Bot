@@ -25,8 +25,9 @@ DiscordGPT is a Discord bot powered by GPT-3.5 which is fully-customisable and h
 7. Chat with your bot in the channel you've determined in `.env`!
 
 ## To-Do ##
-- [x] A more user friendly setup
+- [ ] Add indication that message has been received and generation is processing (bot is typing, etc.)
 - [ ] Add a keyword/command for bot to keep information in database forever
+- [x] A more user friendly setup
 - [x] Implement the new gpt-3.5-turbo model
 
 ## Acknowledgements ##
