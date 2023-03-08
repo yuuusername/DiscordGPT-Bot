@@ -1,7 +1,4 @@
 const { Events, Message, IntegrationApplication } = require('discord.js');
-const lib = require('lib')({ 
-	token: process.env.LIB_API_KEY, 
-});
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -29,11 +26,7 @@ module.exports = {
 			let cleanMessage = content.replace(/<@(\d+)>/gi, ($0, $1) => {
 			return `<@${nickname}>`;
 			});
-
-			let kvKey = `discordgpt:messageHistory:!`;
 			let historyLength = 20;
-			
-			
 			let currentMessage = {role: "user", content: cleanMessage};
 			let currentAuthor = {role: "system", content: `${nickname}:`}
 			let history = [];
@@ -60,7 +53,7 @@ module.exports = {
 				second: '2-digit',
 				hour12: false
 			}).format(d);
-			let timestamp = `[${date}]`;
+			//let timestamp = `[${date}]`;
 
 			const desiredLength = 500;
 			while (`${cleanMessage}`.length > desiredLength) {
@@ -93,7 +86,7 @@ module.exports = {
 				} catch (error) {
 				  console.error(error);
 				}
-				let [messageResponse, kvResponse] = await Promise.all([
+				let [messageResponse] = await Promise.all([
 					message.channel.send({
 					channel_id: `DISCORD_CHANNEL_ID`,
 					content: [
@@ -106,13 +99,7 @@ module.exports = {
 					reply: {
 						messageReference: message.id
 						}
-					}
-					),
-					lib.utils.kv['@0.1.16'].set({
-					key: kvKey,
-					value: history,
-					ttl: 600
-					})
+					}),
 				]);
 				return messageResponse
 			} catch (err) {
