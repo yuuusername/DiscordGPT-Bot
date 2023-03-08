@@ -38,4 +38,3 @@ This project uses the following libraries:
 
 * Discord.js: (https://discord.js.org/)
 * OpenAI GPT-3.5 API: (https://platform.openai.com/docs/guides/chat)
-* Autocode standard library: (https://github.com/acode/cli)
