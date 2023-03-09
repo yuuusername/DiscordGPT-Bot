@@ -1,4 +1,4 @@
-const { Events, Message, IntegrationApplication } = require('discord.js');
+const { Events, EmbedBuilder } = require('discord.js');
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
 const prompt = require('./prompt.js');
+const { channel } = require('diagnostics_channel');
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
@@ -64,46 +65,70 @@ module.exports = {
 			conversation.push(prompt(message, nickname)[prompt.length - 1]);
 			conversation.push(currentAuthor);
 			conversation.push(currentMessage);
-			try {
-				let completion = await openai.createChatCompletion({
-					model: "gpt-3.5-turbo",
-					messages: conversation,
-					temperature: 0,
-					top_p: 0,
-					max_tokens: 256,
-					frequency_penalty: 0,
-					presence_penalty: 0,
-				});
-
-				let response = completion.data.choices[0].message;
-				conversation = conversation + response;
-				history.push(currentAuthor, currentMessage, response);
-				if (history.length > historyLength) {
-				  history = history.slice(history.length - historyLength);
-				}
+			let completionIndex = 3;
+			let responseSent = false;
+			while (completionIndex != 0 && !responseSent) {
+				completionIndex--;
 				try {
-				  await writeFileAsync(dbFilePath, JSON.stringify(history), { encoding: 'utf8' });
-				} catch (error) {
-				  console.error(error);
-				}
-				let [messageResponse] = await Promise.all([
-					message.channel.send({
-					channel_id: `DISCORD_CHANNEL_ID`,
-					content: [
-						response.content
-					].join('\n'),
-					tts: false,
-					allowedMentions: { // "allowed_mentions" with this parameter prevents a ping
-						repliedUser: false
-					},
-					reply: {
-						messageReference: message.id
+					let completion = await openai.createChatCompletion({
+						model: "gpt-3.5-turbo",
+						messages: conversation,
+						temperature: 0,
+						top_p: 0,
+						max_tokens: 256,
+						frequency_penalty: 0,
+						presence_penalty: 0,
+					});
+
+					let response = completion.data.choices[0].message;
+					conversation = conversation + response;
+					history.push(currentAuthor, currentMessage, response);
+					if (history.length > historyLength) {
+					history = history.slice(history.length - historyLength);
+					}
+					try {
+					await writeFileAsync(dbFilePath, JSON.stringify(history), { encoding: 'utf8' });
+					} catch (error) {
+					console.error(error);
+					}
+					let [messageResponse] = await Promise.all([
+						message.channel.send({
+						channel_id: `DISCORD_CHANNEL_ID`,
+						content: [
+							response.content
+						].join('\n'),
+						tts: false,
+						allowedMentions: { // "allowed_mentions" with this parameter prevents a ping
+							repliedUser: false
+						},
+						reply: {
+							messageReference: message.id
+							}
+						}),
+					]);
+					responseSent = true;
+					return messageResponse;
+				} catch (err) {
+					console.error(err);
+					const errorEmbed = new EmbedBuilder()
+						.setColor(0xFF0000)
+						.setTitle('There was an error D:')
+						if (completionIndex == 1) {
+							errorEmbed.setDescription(err + ". I'll try again " + completionIndex + " last time in 3 seconds!");
+							setTimeout(() => {
+								errorMessage.delete();
+							}, 3000);
+
+						} else if (completionIndex == 0) {
+							errorEmbed.setDescription(err + ". Try searching the error code on OpenAI Support https://help.openai.com/en/. Check your API usage (https://platform.openai.com/account/usage). ");
+						} else {
+							errorEmbed.setDescription(err + " I'll try again " + completionIndex + " more times in 3 seconds!");
+							setTimeout(() => {
+								errorMessage.delete();
+							}, 3000);
 						}
-					}),
-				]);
-				return messageResponse
-			} catch (err) {
-				console.error(err);
+					const errorMessage = await message.channel.send({embeds: [errorEmbed]});
+				}
 			}
 		}
 	},
