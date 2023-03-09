@@ -13,7 +13,7 @@ const { channel } = require('diagnostics_channel');
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
-const dbFilePath = path.join(__dirname, 'history.json');
+const historyDbFilePath = path.join(__dirname, 'history.json');
 
 module.exports = {
 	name: Events.MessageCreate,
@@ -32,7 +32,7 @@ module.exports = {
 			let currentAuthor = {role: "system", content: `${nickname}:`}
 			let history = [];
 			try {
-			  const dbData = await readFileAsync(dbFilePath, { encoding: 'utf8' });
+			  const dbData = await readFileAsync(historyDbFilePath, { encoding: 'utf8' });
 			  history = JSON.parse(dbData);
 			} catch (error) {
 			  if (error.code !== 'ENOENT') {
@@ -44,16 +44,17 @@ module.exports = {
 				history = [];
 			}
 
-			let d = new Date(message.createdTimestamp);
-			let date = new Intl.DateTimeFormat('en-GB', { 
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit',
-				hour: '2-digit',
-				minute: '2-digit',
-				second: '2-digit',
-				hour12: false
-			}).format(d);
+			// To add date to the message //
+			// let d = new Date(message.createdTimestamp);
+			// let date = new Intl.DateTimeFormat('en-GB', { 
+			// 	year: 'numeric',
+			// 	month: '2-digit',
+			// 	day: '2-digit',
+			// 	hour: '2-digit',
+			// 	minute: '2-digit',
+			// 	second: '2-digit',
+			// 	hour12: false
+			// }).format(d);
 			//let timestamp = `[${date}]`;
 
 			const desiredLength = 500;
@@ -88,7 +89,7 @@ module.exports = {
 					history = history.slice(history.length - historyLength);
 					}
 					try {
-					await writeFileAsync(dbFilePath, JSON.stringify(history), { encoding: 'utf8' });
+					await writeFileAsync(historyDbFilePath, JSON.stringify(history), { encoding: 'utf8' });
 					} catch (error) {
 					console.error(error);
 					}
