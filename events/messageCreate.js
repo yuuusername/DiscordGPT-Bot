@@ -68,6 +68,7 @@ module.exports = {
 			let completionIndex = 3;
 			let responseSent = false;
 			while (completionIndex != 0 && !responseSent) {
+				message.channel.sendTyping();
 				completionIndex--;
 				try {
 					let completion = await openai.createChatCompletion({
