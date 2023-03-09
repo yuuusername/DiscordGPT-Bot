@@ -26,6 +26,7 @@ DiscordGPT is a Discord bot powered by GPT-3.5 which is fully-customisable and h
 
 ## To-Do ##
 - [ ] Add a keyword/command for bot to keep information in database forever
+- [ ] Add a banned and increased likelihood word list (https://help.openai.com/en/articles/5247780-using-logit-bias-to-define-token-probability)
 - [x] Add indication that message has been received and generation is processing (bot is typing, etc.)
 - [x] A more user friendly setup
 - [x] Implement the new gpt-3.5-turbo model
