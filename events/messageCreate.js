@@ -18,7 +18,6 @@ const historyDbFilePath = path.join(__dirname, 'history.json');
 module.exports = {
 	name: Events.MessageCreate,
 	async execute(message) {
-		const token = process.env.DISCORD_TOKEN;
 		if (message.channelId == process.env.DISCORD_CHANNEL_ID && !message.author.bot && !message.system) {
 			let content = message.content;
 			let author = message.author;
