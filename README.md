@@ -6,6 +6,7 @@ DiscordGPT is a Discord bot powered by GPT-3.5, the same model that powers OpenA
   
   **Example:** Type "Hey DiscordGPT, who was the winner in the 2016 Olympics?" After your bot shares the results of the Olympics in 2016, you can ask "And what about 2020?" and get the results.
 * Message history - Your bot can remember what you said in the past (default 20 messages max). 
+* A customisable personality
 * Endless customisation
 
 ## Requirements ##
