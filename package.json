@@ -1,7 +1,7 @@
 {
   "name": "discordgpt-bot",
   "version": "1.0.0",
-  "description": "A fully-customisable Discord bot powered by OpenAI's GPT-3",
+  "description": "A fully-customisable ChatGPT Discord bot powered by OpenAI's GPT-3.5",
   "main": "index.js",
   "dependencies": {
     "discord.js": "^14.7.1",
@@ -21,6 +21,7 @@
     "discord",
     "discordbot",
     "openai-api",
+    "chatgpt",
     "gpt-3",
     "discord-bot",
     "discordjs-v14",
