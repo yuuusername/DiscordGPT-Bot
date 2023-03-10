@@ -1,5 +1,5 @@
 # DiscordGPT: A Highly Customisable GPT-Powered Discord Bot #
-DiscordGPT is a Discord bot powered by GPT-3.5 which is fully-customisable and has now been refactored to suit the needs of those who would like to host their DiscordGPT bot on their own machines. 
+DiscordGPT is a Discord bot powered by GPT-3.5, the same model that powers OpenAi's ChatGPT. The bot is fully-customisable and suits the needs of those who would like to host their own DiscordGPT bot on their own machines. 
 
 ## Features ##
 * Continuous conversation - Ask a question and after your bot responds, you can ask a follow-up question that requires context from the first question.
