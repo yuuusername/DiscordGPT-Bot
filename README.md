@@ -30,6 +30,7 @@ DiscordGPT is a Discord bot powered by GPT-3.5, the same model that powers OpenA
 - [ ] Add a banned and increased likelihood word list (https://help.openai.com/en/articles/5247780-using-logit-bias-to-define-token-probability)
 - [ ] Improve prompt influence
 - [ ] Migrate instructions to the Wiki
+- [ ] Improve error handling UX
 - [x] Add indication that message has been received and generation is processing (bot is typing, etc.)
 - [x] A more user friendly setup
 - [x] Implement the new gpt-3.5-turbo model
