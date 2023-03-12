@@ -6,7 +6,6 @@
   "dependencies": {
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "lib": "^4.3.3",
     "openai": "^3.2.1"
   },
   "devDependencies": {},
