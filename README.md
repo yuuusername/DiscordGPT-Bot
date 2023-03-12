@@ -16,6 +16,7 @@ DiscordGPT is a Discord bot powered by GPT-3.5, the same model that powers OpenA
 1. Clone the repository.
 2. Rename `.env.template` file to `.env` in the root directory and fill in the following properties:
     * `DISCORD_TOKEN`: [Create a bot](https://discord.com/developers/applications/), selecting 'New Application' and following the steps to 'Create'. Once created, click 'Bot' on the left menu, 'Add Bot', then 'View Token'. The token that pops up should be coppied and pasted into the `.env` file, replacing `YOUR_DISCORD_BOT_TOKEN`.
+    * `CLIENT_ID`: [View your applications](https://discord.com/developers/applications/), select your bot, click 'OAuth2', copy client id and paste into the `.env` file, replacing `YOUR_CLIENT_ID`.
     * `OPENAI_API_KEY`: [Open the API Keys page](https://platform.openai.com/account/api-keys) and create/login to an account, click 'Create new secret key' which allows you to copy the key and paste it into the `.env` file, replacing `YOUR_OPENAI_API_KEY`.
     * `DISCORD_CHANNEL_ID`: Right-click the desired channel for your bot to speak in, selecting the bottom most option 'Copy ID' and paste it into the `.env` file, replacing `YOUR_DISCORD_CHANNEL_ID`.
 3. Edit `prompt-template.js` (optional) and rename to `prompt.js`
