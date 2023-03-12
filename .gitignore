@@ -6,3 +6,5 @@ events/history.json
 events/prompt.js
 # Ignore node_modules directory
 node_modules/
+# Ignore memoryBank.json file
+commands/memoryBank.json

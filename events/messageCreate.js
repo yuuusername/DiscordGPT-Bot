@@ -14,6 +14,7 @@ const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
 const historyDbFilePath = path.join(__dirname, 'history.json');
+const memoryBankFilePath = path.join(__dirname, '..', 'commands', 'memoryBank.json');
 
 module.exports = {
 	name: Events.MessageCreate,
@@ -26,9 +27,9 @@ module.exports = {
 			let cleanMessage = content.replace(/<@(\d+)>/gi, ($0, $1) => {
 			return `<@${nickname}>`;
 			});
-			let historyLength = 20;
 			let currentMessage = {role: "user", content: cleanMessage};
 			let currentAuthor = {role: "system", content: `${nickname}:`}
+			let historyLength = 20;
 			let history = [];
 			try {
 			  const dbData = await readFileAsync(historyDbFilePath, { encoding: 'utf8' });
@@ -43,6 +44,19 @@ module.exports = {
 				history = [];
 			}
 
+			let memoryBank = [];
+			try {
+			  const dbData = await readFileAsync(memoryBankFilePath, { encoding: 'utf8' });
+			  memoryBank = JSON.parse(dbData);
+			} catch (error) {
+			  if (error.code !== 'ENOENT') {
+				console.error(error);
+			  }
+			}
+
+			if (!Array.isArray(memoryBank)) {
+				memoryBank = [];
+			}
 			// To add date to the message //
 			// let d = new Date(message.createdTimestamp);
 			// let date = new Intl.DateTimeFormat('en-GB', { 
@@ -56,11 +70,12 @@ module.exports = {
 			// }).format(d);
 			//let timestamp = `[${date}]`;
 
-			const desiredLength = 500;
+			const desiredLength = 1000;
 			while (`${cleanMessage}`.length > desiredLength) {
 			cleanMessage = `${cleanMessage}`.slice(0, -1);
 			}
 			let conversation = prompt(message, nickname);
+			conversation = conversation.concat(memoryBank);
 			conversation = conversation.concat(history);
 			conversation.push(prompt(message, nickname)[prompt.length - 1]);
 			conversation.push(currentAuthor);
@@ -117,11 +132,11 @@ module.exports = {
 						.setDescription(completionIndex == 0
 							? `${err}. Try searching the error code on [OpenAI Support](https://help.openai.com/en/). Check your [API usage](https://platform.openai.com/account/usage).`
 							: `${err}. I'll try again ${completionIndex} more time/s in 5 seconds!`);
-						const errorMessage = await message.channel.send({embeds: [errorEmbed]});
-						if (completionIndex > 0) {
-						  await new Promise(resolve => setTimeout(resolve, 5000));
-						  setTimeout(() => errorMessage.delete(), 5000);
-						}
+					const errorMessage = await message.channel.send({embeds: [errorEmbed]});
+					if (completionIndex > 0) {
+						await new Promise(resolve => setTimeout(resolve, 5000));
+						setTimeout(() => errorMessage.delete(), 5000);
+					}
 				}
 			}
 		}
