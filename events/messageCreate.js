@@ -135,7 +135,6 @@ module.exports = {
 					if (completionIndex > 0) {
 						await new Promise(resolve => setTimeout(resolve, 2000));
 						setTimeout(() => errorMessage.delete(), 3000);
-					} else {
 						console.error(err);
 					}
 				}
