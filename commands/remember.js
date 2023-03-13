@@ -15,6 +15,7 @@ module.exports = {
 				.setRequired(true)
 				.setMaxLength(1000)),
 	async execute(interaction) {
+		await interaction.deferReply({ ephemeral: true });
 		const rememberMessage = interaction.options.getString('input')
 		let memoryLength = 20;
 		let memoryBank = [];
@@ -48,6 +49,8 @@ module.exports = {
 			if (!Array.isArray(memoryBank)) {
 				memoryBank = [];
 			}
-		return interaction.reply({ content: `I'll remember that ${rememberMessage}`, ephemeral: true});
+
+			await interaction.editReply(`I'll remember that ${rememberMessage}`);
+		//return interaction.reply({ content: `I'll remember that ${rememberMessage}`, ephemeral: true});
 	},
 };
