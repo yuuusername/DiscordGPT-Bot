@@ -125,17 +125,18 @@ module.exports = {
 					responseSent = true;
 					return messageResponse;
 				} catch (err) {
-					console.error(err);
 					const errorEmbed = new EmbedBuilder()
 						.setColor(0xFF0000)
 						.setTitle('There was an error D:')
 						.setDescription(completionIndex == 0
-							? `${err}. Try searching the error code on [OpenAI Support](https://help.openai.com/en/). Check your [API usage](https://platform.openai.com/account/usage).`
-							: `${err}. I'll try again ${completionIndex} more time/s in 5 seconds!`);
+							? `${err}: ${err.response.statusText}. Try searching the error code on [OpenAI Support](https://help.openai.com/en/). Check your [API usage](https://platform.openai.com/account/usage).`
+							: `${err}: ${err.response.statusText}. I'll try again ${completionIndex} more time/s in 3 seconds!`);
 					const errorMessage = await message.channel.send({embeds: [errorEmbed]});
 					if (completionIndex > 0) {
-						await new Promise(resolve => setTimeout(resolve, 5000));
-						setTimeout(() => errorMessage.delete(), 5000);
+						await new Promise(resolve => setTimeout(resolve, 2000));
+						setTimeout(() => errorMessage.delete(), 3000);
+					} else {
+						console.error(err);
 					}
 				}
 			}
